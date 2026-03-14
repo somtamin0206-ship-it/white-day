@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy White Day</title>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%; min-height: 100vh;
+      overflow: hidden;
+    }
+
+    body {
+      background: radial-gradient(ellipse at 50% 45%, #f2ede0 0%, #d4ccb4 55%, #a09880 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      filter: grayscale(100%);
+      animation: flicker 7s ease-in-out infinite;
+      position: relative;
+    }
+
+    @keyframes flicker {
+      0%,85%,87%,89%,91%,100% { filter: grayscale(100%) brightness(1); }
+      86% { filter: grayscale(100%) brightness(0.88); }
+      88% { filter: grayscale(100%) brightness(0.96); }
+      90% { filter: grayscale(100%) brightness(0.84); }
+    }
+
+    /* ── Film grain ── */
+    .grain {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 900;
+      opacity: 0.12;
+      animation: grainShift 0.1s steps(1) infinite;
+    }
+    .grain svg { width: 200%; height: 200%; }
+    @keyframes grainShift {
+      0%  { transform: translate(0,0); }
+      10% { transform: translate(-2%,-1%); }
+      20% { transform: translate(1%, 2%); }
+      30% { transform: translate(-1%, 1%); }
+      40% { transform: translate(2%,-2%); }
+      50% { transform: translate(-3%, 0); }
+      60% { transform: translate(1%, 3%); }
+      70% { transform: translate(-2%, 2%); }
+      80% { transform: translate(3%,-1%); }
+      90% { transform: translate(-1%,-3%); }
+    }
+
+    /* ── Scanlines ── */
+    .scanlines {
+      position: fixed; inset: 0; pointer-events: none; z-index: 901;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 3px,
+        rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 4px
+      );
+    }
+
+    /* ── Vignette ── */
+    .vignette {
+      position: fixed; inset: 0; pointer-events: none; z-index: 902;
+      background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.72) 100%);
+    }
+
+    /* ── Film sprocket holes ── */
+    .sprockets {
+      position: fixed; top: 0; bottom: 0; width: 38px;
+      display: flex; flex-direction: column; justify-content: space-around;
+      align-items: center; padding: 18px 0;
+      border-right: 2px solid rgba(0,0,0,0.15);
+      z-index: 903;
+    }
+    .sprockets.right { left: auto; right: 0; border-right: none; border-left: 2px solid rgba(0,0,0,0.15); }
+    .hole {
+      width: 18px; height: 14px;
+      border: 2px solid rgba(0,0,0,0.25);
+      border-radius: 3px;
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* ── Title ── */
+    .title {
+      font-family: 'Luckiest Guy', cursive;
+      font-size: clamp(2.8rem, 9vw, 5.5rem);
+      color: #111;
+      text-align: center;
+      letter-spacing: 4px;
+      line-height: 1.05;
+      position: relative; z-index: 10;
+      /* Vintage cartoon outline */
+      -webkit-text-stroke: 2px #000;
+      text-shadow:
+        3px  3px 0 #fff,
+        4px  4px 0 #888,
+        6px  6px 0 #333,
+        7px  7px 4px rgba(0,0,0,0.5);
+      animation: titleBounce 0.46s ease-in-out infinite alternate;
+    }
+    @keyframes titleBounce {
+      0%   { transform: scale(1)    translateY(0)    rotate(-1deg); }
+      100% { transform: scale(1.05) translateY(-10px) rotate(1deg); }
+    }
+
+    /* ── Dog container ── */
+    .dog-wrap {
+      position: relative; z-index: 10;
+      animation: bodyBounce 0.46s ease-in-out infinite alternate;
+      transform-origin: center bottom;
+      filter: drop-shadow(6px 14px 12px rgba(0,0,0,0.45));
+    }
+    @keyframes bodyBounce {
+      0%   { transform: translateY(0)    rotate(-2.5deg) scaleX(1);    }
+      100% { transform: translateY(-18px) rotate(2.5deg)  scaleX(0.97); }
+    }
+
+    .dog-svg { width: min(52vw, 270px); height: auto; }
+  </style>
+</head>
+<body>
+
+  <!-- Film effects -->
+  <div class="grain">
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="n">
+        <feTurbulence type="fractalNoise" baseFrequency="0.88" numOctaves="4" stitchTiles="stitch"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#n)"/>
+    </svg>
+  </div>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <div class="sprockets">
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div>
+  </div>
+  <div class="sprockets right">
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <div class="hole"></div><div class="hole"></div>
+  </div>
+
+  <!-- Title -->
+  <h1 class="title">Happy<br>White Day</h1>
+
+  <!-- Robot Dog -->
+  <div class="dog-wrap">
+    <svg class="dog-svg" viewBox="0 0 260 430" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Metallic sphere: bright highlight top-left → dark edges -->
+        <radialGradient id="gSphere" cx="33%" cy="26%" r="68%">
+          <stop offset="0%"   stop-color="#ffffff"/>
+          <stop offset="18%"  stop-color="#e8e8e8"/>
+          <stop offset="48%"  stop-color="#b0b0b0"/>
+          <stop offset="72%"  stop-color="#707070"/>
+          <stop offset="100%" stop-color="#2a2a2a"/>
+        </radialGradient>
+        <!-- Body sphere: slightly darker -->
+        <radialGradient id="gBody" cx="30%" cy="24%" r="72%">
+          <stop offset="0%"   stop-color="#f5f5f5"/>
+          <stop offset="28%"  stop-color="#cccccc"/>
+          <stop offset="60%"  stop-color="#888888"/>
+          <stop offset="100%" stop-color="#363636"/>
+        </radialGradient>
+        <!-- Cylinder (limbs): horizontal gradient -->
+        <linearGradient id="gCyl" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#444"/>
+          <stop offset="18%"  stop-color="#bbb"/>
+          <stop offset="48%"  stop-color="#eee"/>
+          <stop offset="78%"  stop-color="#aaa"/>
+          <stop offset="100%" stop-color="#333"/>
+        </linearGradient>
+        <!-- Hat cylinder -->
+        <linearGradient id="gHat" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stop-color="#111"/>
+          <stop offset="25%"  stop-color="#444"/>
+          <stop offset="60%"  stop-color="#2a2a2a"/>
+          <stop offset="100%" stop-color="#0a0a0a"/>
+        </linearGradient>
+        <!-- Hat brim -->
+        <linearGradient id="gBrim" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#666"/>
+          <stop offset="100%" stop-color="#111"/>
+        </linearGradient>
+        <!-- Bow tie -->
+        <linearGradient id="gBow" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%"   stop-color="#bbb"/>
+          <stop offset="45%"  stop-color="#555"/>
+          <stop offset="100%" stop-color="#999"/>
+        </linearGradient>
+        <!-- Eye white -->
+        <radialGradient id="gEye" cx="38%" cy="32%" r="62%">
+          <stop offset="0%"   stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#dddddd"/>
+        </radialGradient>
+        <!-- Foot -->
+        <radialGradient id="gFoot" cx="38%" cy="28%" r="66%">
+          <stop offset="0%"   stop-color="#e5e5e5"/>
+          <stop offset="55%"  stop-color="#999"/>
+          <stop offset="100%" stop-color="#333"/>
+        </radialGradient>
+        <!-- Joint ball -->
+        <radialGradient id="gJoint" cx="30%" cy="28%" r="68%">
+          <stop offset="0%"   stop-color="#ddd"/>
+          <stop offset="50%"  stop-color="#888"/>
+          <stop offset="100%" stop-color="#333"/>
+        </radialGradient>
+      </defs>
+
+      <!-- ═══ GROUND SHADOW ═══ -->
+      <ellipse cx="130" cy="426" rx="80" ry="7" fill="rgba(0,0,0,0.22)"/>
+
+      <!-- ═══ FEET ═══ -->
+      <ellipse cx="93"  cy="416" rx="34" ry="13" fill="url(#gFoot)" stroke="#111" stroke-width="1.8"/>
+      <ellipse cx="167" cy="416" rx="34" ry="13" fill="url(#gFoot)" stroke="#111" stroke-width="1.8"/>
+
+      <!-- ═══ LEFT LEG (SMIL animate) ═══ -->
+      <g>
+        <!-- hip joint -->
+        <circle cx="93" cy="307" r="13" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="93" cy="307" r="4.5" fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="91" cy="305" r="1.8" fill="#aaa"/>
+        <!-- upper leg -->
+        <rect x="82" y="304" width="22" height="55" rx="11" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <!-- knee joint -->
+        <circle cx="93" cy="357" r="12" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="93" cy="357" r="4"   fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="91" cy="355" r="1.6" fill="#aaa"/>
+        <!-- lower leg -->
+        <rect x="83" y="354" width="20" height="55" rx="10" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <animateTransform attributeName="transform" type="rotate"
+          values="-14,93,307; 10,93,307; -14,93,307"
+          dur="0.92s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.37 0 0.63 1;0.37 0 0.63 1" keyTimes="0;0.5;1"/>
+      </g>
+
+      <!-- ═══ RIGHT LEG (out of phase) ═══ -->
+      <g>
+        <circle cx="167" cy="307" r="13" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="167" cy="307" r="4.5" fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="165" cy="305" r="1.8" fill="#aaa"/>
+        <rect x="156" y="304" width="22" height="55" rx="11" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <circle cx="167" cy="357" r="12" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="167" cy="357" r="4"   fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="165" cy="355" r="1.6" fill="#aaa"/>
+        <rect x="157" y="354" width="20" height="55" rx="10" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <animateTransform attributeName="transform" type="rotate"
+          values="14,167,307; -10,167,307; 14,167,307"
+          dur="0.92s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.37 0 0.63 1;0.37 0 0.63 1" keyTimes="0;0.5;1"/>
+      </g>
+
+      <!-- ═══ BODY ═══ -->
+      <ellipse cx="130" cy="272" rx="65" ry="54" fill="url(#gBody)" stroke="#111" stroke-width="2.2"/>
+      <!-- body seam -->
+      <path d="M 78 272 Q 130 280 182 272" fill="none" stroke="#555" stroke-width="1.2" stroke-dasharray="none"/>
+      <!-- chest panel circle -->
+      <circle cx="130" cy="262" r="24" fill="none" stroke="#777" stroke-width="1.4"/>
+      <!-- chest detail lines -->
+      <line x1="120" y1="255" x2="140" y2="255" stroke="#888" stroke-width="1"/>
+      <line x1="120" y1="262" x2="140" y2="262" stroke="#888" stroke-width="1"/>
+      <line x1="120" y1="269" x2="140" y2="269" stroke="#888" stroke-width="1"/>
+      <!-- body rivets -->
+      <circle cx="78"  cy="258" r="4" fill="#333" stroke="#111" stroke-width="1"/><circle cx="76"  cy="256" r="1.5" fill="#ccc"/>
+      <circle cx="182" cy="258" r="4" fill="#333" stroke="#111" stroke-width="1"/><circle cx="180" cy="256" r="1.5" fill="#ccc"/>
+      <circle cx="78"  cy="280" r="4" fill="#333" stroke="#111" stroke-width="1"/><circle cx="76"  cy="278" r="1.5" fill="#ccc"/>
+      <circle cx="182" cy="280" r="4" fill="#333" stroke="#111" stroke-width="1"/><circle cx="180" cy="278" r="1.5" fill="#ccc"/>
+
+      <!-- ═══ LEFT ARM (shoulder pivot 72,245) ═══ -->
+      <g>
+        <!-- shoulder -->
+        <circle cx="72" cy="245" r="14" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="72" cy="245" r="4.5" fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="70" cy="243" r="1.8" fill="#aaa"/>
+        <!-- upper arm -->
+        <rect x="60" y="244" width="20" height="46" rx="10" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <!-- elbow -->
+        <circle cx="70" cy="287" r="12" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="70" cy="287" r="4"   fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="68" cy="285" r="1.5" fill="#aaa"/>
+        <!-- forearm -->
+        <rect x="62" y="284" width="18" height="42" rx="9" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <!-- fist -->
+        <circle cx="71" cy="323" r="17" fill="url(#gJoint)" stroke="#111" stroke-width="2"/>
+        <path d="M 60 318 Q 71 328 82 318" fill="none" stroke="#333" stroke-width="1.5"/>
+        <path d="M 57 323 Q 71 326 85 323" fill="none" stroke="#333" stroke-width="1.5"/>
+        <animateTransform attributeName="transform" type="rotate"
+          values="-55,72,245; 28,72,245; -55,72,245"
+          dur="0.46s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.42 0 0.58 1;0.42 0 0.58 1" keyTimes="0;0.5;1"/>
+      </g>
+
+      <!-- ═══ RIGHT ARM (shoulder pivot 188,245) ═══ -->
+      <g>
+        <circle cx="188" cy="245" r="14" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="188" cy="245" r="4.5" fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="186" cy="243" r="1.8" fill="#aaa"/>
+        <rect x="180" y="244" width="20" height="46" rx="10" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <circle cx="190" cy="287" r="12" fill="url(#gJoint)" stroke="#111" stroke-width="1.8"/>
+        <circle cx="190" cy="287" r="4"   fill="#222" stroke="#000" stroke-width="1"/>
+        <circle cx="188" cy="285" r="1.5" fill="#aaa"/>
+        <rect x="182" y="284" width="18" height="42" rx="9" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+        <circle cx="189" cy="323" r="17" fill="url(#gJoint)" stroke="#111" stroke-width="2"/>
+        <path d="M 178 318 Q 189 328 200 318" fill="none" stroke="#333" stroke-width="1.5"/>
+        <path d="M 175 323 Q 189 326 203 323" fill="none" stroke="#333" stroke-width="1.5"/>
+        <animateTransform attributeName="transform" type="rotate"
+          values="55,188,245; -28,188,245; 55,188,245"
+          dur="0.46s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.42 0 0.58 1;0.42 0 0.58 1" keyTimes="0;0.5;1"/>
+      </g>
+
+      <!-- ═══ NECK ═══ -->
+      <rect x="120" y="210" width="20" height="28" rx="8" fill="url(#gCyl)" stroke="#111" stroke-width="1.5"/>
+      <!-- neck top joint -->
+      <circle cx="130" cy="212" r="11" fill="url(#gJoint)" stroke="#111" stroke-width="1.5"/>
+      <circle cx="130" cy="212" r="3.5" fill="#222" stroke="#000" stroke-width="1"/>
+      <circle cx="128" cy="210" r="1.4" fill="#bbb"/>
+
+      <!-- ═══ BOW TIE ═══ -->
+      <!-- left wing -->
+      <path d="M 130 225 L 104 214 L 107 225 L 104 236 Z" fill="url(#gBow)" stroke="#111" stroke-width="1.5"/>
+      <!-- right wing -->
+      <path d="M 130 225 L 156 214 L 153 225 L 156 236 Z" fill="url(#gBow)" stroke="#111" stroke-width="1.5"/>
+      <!-- center knot -->
+      <circle cx="130" cy="225" r="10" fill="#777" stroke="#111" stroke-width="1.5"/>
+      <circle cx="129" cy="223" r="4"  fill="#bbb"/>
+
+      <!-- ═══ HEAD ═══ -->
+      <circle cx="130" cy="140" r="86" fill="url(#gSphere)" stroke="#111" stroke-width="2.8"/>
+      <!-- subtle rim highlight -->
+      <circle cx="130" cy="140" r="86" fill="none" stroke="#fff" stroke-width="0.6" opacity="0.25"/>
+      <!-- head panel lines -->
+      <path d="M 65 155 Q 130 165 195 155" fill="none" stroke="#555" stroke-width="1.2"/>
+      <path d="M 75 115 Q 130 108 185 115" fill="none" stroke="#555" stroke-width="1.2"/>
+      <!-- head rivets -->
+      <circle cx="68"  cy="138" r="4.5" fill="#333" stroke="#111" stroke-width="1"/><circle cx="66"  cy="136" r="1.8" fill="#ccc"/>
+      <circle cx="192" cy="138" r="4.5" fill="#333" stroke="#111" stroke-width="1"/><circle cx="190" cy="136" r="1.8" fill="#ccc"/>
+      <circle cx="130" cy="54"  r="4.5" fill="#333" stroke="#111" stroke-width="1"/><circle cx="128" cy="52"  r="1.8" fill="#ccc"/>
+      <circle cx="130" cy="224" r="4.5" fill="#333" stroke="#111" stroke-width="1"/><circle cx="128" cy="222" r="1.8" fill="#ccc"/>
+
+      <!-- ═══ LEFT EAR ═══ -->
+      <g>
+        <ellipse cx="57" cy="158" rx="28" ry="40"
+          fill="url(#gBody)" stroke="#111" stroke-width="2.2"
+          transform="rotate(12,57,158)"/>
+        <!-- ear inner shading -->
+        <ellipse cx="52" cy="150" rx="10" ry="16"
+          fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"
+          transform="rotate(12,52,150)"/>
+        <animateTransform attributeName="transform" type="rotate"
+          values="-8,57,118; 6,57,118; -8,57,118"
+          dur="0.46s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.42 0 0.58 1;0.42 0 0.58 1" keyTimes="0;0.5;1"/>
+      </g>
+
+      <!-- ═══ RIGHT EAR ═══ -->
+      <g>
+        <ellipse cx="203" cy="158" rx="28" ry="40"
+          fill="url(#gBody)" stroke="#111" stroke-width="2.2"
+          transform="rotate(-12,203,158)"/>
+        <ellipse cx="198" cy="150" rx="10" ry="16"
+          fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"
+          transform="rotate(-12,198,150)"/>
+        <animateTransform attributeName="transform" type="rotate"
+          values="8,203,118; -6,203,118; 8,203,118"
+          dur="0.46s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.42 0 0.58 1;0.42 0 0.58 1" keyTimes="0;0.5;1"/>
+      </g>
+
+      <!-- ═══ EYES ═══ -->
+      <!-- Left eye -->
+      <ellipse cx="104" cy="132" rx="30" ry="32" fill="url(#gEye)" stroke="#000" stroke-width="3"/>
+      <ellipse cx="108" cy="136" rx="17" ry="18" fill="#111"/>
+      <!-- Left iris shine -->
+      <ellipse cx="101" cy="127" rx="8"  ry="7"  fill="white"/>
+      <circle  cx="118" cy="144" r="4"   fill="white" opacity="0.5"/>
+
+      <!-- Right eye -->
+      <ellipse cx="156" cy="132" rx="30" ry="32" fill="url(#gEye)" stroke="#000" stroke-width="3"/>
+      <ellipse cx="160" cy="136" rx="17" ry="18" fill="#111"/>
+      <!-- Right iris shine -->
+      <ellipse cx="153" cy="127" rx="8"  ry="7"  fill="white"/>
+      <circle  cx="170" cy="144" r="4"   fill="white" opacity="0.5"/>
+
+      <!-- Eye blink -->
+      <animateTransform attributeName="transform" type="scale"
+        values="1 1;1 1;1 1;1 1;1 1;1 1;1 0.08;1 1;1 1;1 1"
+        dur="4s" repeatCount="indefinite" keyTimes="0;0.4;0.5;0.6;0.65;0.7;0.72;0.74;0.8;1"/>
+
+      <!-- ═══ NOSE ═══ -->
+      <ellipse cx="130" cy="167" rx="13" ry="9" fill="#1a1a1a" stroke="#000" stroke-width="1.5"/>
+      <ellipse cx="125" cy="164" rx="4"  ry="2.5" fill="#555" opacity="0.5"/>
+
+      <!-- ═══ MOUTH (open happy smile) ═══ -->
+      <!-- mouth outline -->
+      <path d="M 105 176 Q 130 204 155 176" fill="#111" stroke="#000" stroke-width="2"/>
+      <!-- teeth -->
+      <path d="M 111 180 Q 130 196 149 180" fill="white"/>
+      <!-- tooth dividers -->
+      <line x1="130" y1="180" x2="130" y2="193" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="120" y1="180" x2="118" y2="190" stroke="#ddd" stroke-width="1.5"/>
+      <line x1="140" y1="180" x2="142" y2="190" stroke="#ddd" stroke-width="1.5"/>
+      <!-- tongue -->
+      <ellipse cx="130" cy="192" rx="11" ry="6" fill="#888"/>
+      <!-- mouth corners -->
+      <circle cx="105" cy="176" r="4" fill="url(#gSphere)" stroke="#111" stroke-width="1.2"/>
+      <circle cx="155" cy="176" r="4" fill="url(#gSphere)" stroke="#111" stroke-width="1.2"/>
+
+      <!-- ═══ CHEEKS ═══ -->
+      <ellipse cx="85"  cy="165" rx="14" ry="9" fill="#888" opacity="0.35"/>
+      <ellipse cx="175" cy="165" rx="14" ry="9" fill="#888" opacity="0.35"/>
+
+      <!-- ═══ HAT ═══ -->
+      <g>
+        <!-- brim shadow -->
+        <ellipse cx="130" cy="62" rx="62" ry="10" fill="#0a0a0a"/>
+        <!-- brim top -->
+        <ellipse cx="130" cy="59" rx="62" ry="9.5" fill="url(#gBrim)" stroke="#000" stroke-width="1.5"/>
+        <!-- cylinder -->
+        <rect x="94" y="5" width="72" height="55" rx="5" fill="url(#gHat)" stroke="#000" stroke-width="2"/>
+        <!-- top -->
+        <ellipse cx="130" cy="6" rx="36" ry="7.5" fill="#282828" stroke="#000" stroke-width="1.5"/>
+        <!-- highlight stripe -->
+        <rect x="100" y="10" width="14" height="42" rx="4" fill="white" opacity="0.06"/>
+        <!-- hat band -->
+        <rect x="94" y="48" width="72" height="13" rx="2" fill="#1a1a1a" stroke="#000" stroke-width="1"/>
+        <!-- band bow (left) -->
+        <path d="M 128 54 L 112 48 L 114 54 L 112 60 Z" fill="#666" stroke="#222" stroke-width="1"/>
+        <!-- band bow (right) -->
+        <path d="M 128 54 L 144 48 L 142 54 L 144 60 Z" fill="#666" stroke="#222" stroke-width="1"/>
+        <!-- band bow knot -->
+        <circle cx="128" cy="54" r="5.5" fill="#999" stroke="#444" stroke-width="1"/>
+        <circle cx="127" cy="53" r="2"   fill="#ddd"/>
+
+        <!-- Candy cane (on hat) -->
+        <!-- stick -->
+        <path d="M 152 10 L 164 -18" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+        <!-- hook -->
+        <path d="M 164 -18 Q 178 -32 176 -12" fill="none" stroke="#bbb" stroke-width="5" stroke-linecap="round"/>
+        <!-- stripes -->
+        <path d="M 152 10 L 164 -18" stroke="#444" stroke-width="2" stroke-dasharray="5,5" stroke-linecap="round"/>
+        <path d="M 164 -18 Q 178 -32 176 -12" fill="none" stroke="#444" stroke-width="2" stroke-dasharray="5,5" stroke-linecap="round"/>
+
+        <animateTransform attributeName="transform" type="rotate"
+          values="-3,130,60; 3,130,60; -3,130,60"
+          dur="0.46s" repeatCount="indefinite" calcMode="spline"
+          keySplines="0.42 0 0.58 1;0.42 0 0.58 1" keyTimes="0;0.5;1"/>
+      </g>
+
+    </svg>
+  </div>
+
+  <script>
+    // Occasional film scratch lines
+    const body = document.body;
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `
+      @keyframes scratch { 0%{opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{opacity:0} }
+    `;
+    document.head.appendChild(styleEl);
+
+    function filmScratch() {
+      const n = 1 + Math.floor(Math.random() * 2);
+      for (let i = 0; i < n; i++) {
+        const el = document.createElement('div');
+        el.style.cssText = `
+          position:fixed; top:0; bottom:0; pointer-events:none; z-index:905;
+          left:${10 + Math.random() * 85}%;
+          width:${0.5 + Math.random() * 1.5}px;
+          background:rgba(255,255,255,${0.08 + Math.random() * 0.18});
+          animation:scratch ${0.1 + Math.random() * 0.2}s forwards;
+        `;
+        body.appendChild(el);
+        setTimeout(() => el.remove(), 300);
+      }
+      setTimeout(filmScratch, 2500 + Math.random() * 5000);
+    }
+    filmScratch();
+  </script>
+</body>
+</html>
