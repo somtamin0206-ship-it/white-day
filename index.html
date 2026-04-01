@@ -71,17 +71,7 @@
       background: rgba(0,0,0,0.42);
     }
 
-    .title {
-      position: relative; z-index: 10;
-      font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(2.6rem, 9vw, 5.2rem);
-      font-weight: 900; color: #fff;
-      text-align: center; letter-spacing: 8px; line-height: 1.12;
-      -webkit-text-stroke: 2px #9d2449;
-      text-shadow: 2px 2px 0 #9d2449, 4px 4px 0 #c2607a;
-      animation: titlePulse 2.2s ease-in-out infinite;
-    }
-    @keyframes titlePulse { 0%,100%{opacity:1} 50%{opacity:0.87} }
+    .title { display: none; }
 
     /* ── Dog bounce dance ── */
     .dog-wrap {
@@ -141,15 +131,15 @@
     .egg-btn {
       position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
       z-index: 20;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.35);
+      border: 1.5px solid rgba(157,36,73,0.55);
+      color: rgba(157,36,73,0.75);
       width: 26px; height: 26px; border-radius: 4px;
       font-size: 0.7rem; cursor: pointer; padding: 0;
-      transition: border-color 0.25s, color 0.25s;
+      transition: border-color 0.25s, color 0.25s, background 0.25s;
       font-family: Georgia, serif; line-height: 1;
     }
-    .egg-btn:hover { border-color: rgba(255,255,255,0.38); color: rgba(255,255,255,0.55); }
+    .egg-btn:hover { background: rgba(255,255,255,0.55); border-color: rgba(157,36,73,0.85); color: rgba(157,36,73,1); }
 
     /* ── PIN popup ── */
     .pin-popup {
