@@ -264,11 +264,12 @@
     }
     .letter-close:hover { color: #333; }
 
-    /* ── Petal pop ── */
-    @keyframes petalPop {
+    /* ── Pocky pop ── */
+    @keyframes pockyPop {
       0%   { transform: translate(0,0) scale(0) rotate(0deg); opacity: 1; }
-      55%  { opacity: 1; }
-      100% { transform: translate(var(--tx),var(--ty)) scale(1.1) rotate(540deg); opacity: 0; }
+      30%  { transform: translate(calc(var(--tx) * 0.8), calc(var(--ty) * 0.8)) scale(1.05) rotate(var(--rot)); opacity: 1; }
+      75%  { opacity: 0.85; }
+      100% { transform: translate(var(--tx), calc(var(--ty) + 30px)) scale(1) rotate(var(--rot)); opacity: 0; }
     }
   </style>
 </head>
@@ -725,9 +726,7 @@
 
 이건 아마 못 읽을 것 같아서, 그냥 여기에 몇줄 더 적어봤어 가은아
 
-다시 꽃피는 시기가 찾아와서, 조금 다듬어 봤어. 항상 많이 생각하고 있어 가은아.
-
-맨날 보고싶다 가은아 엄청. 계속 노력할게</p>
+요즘 시기가 많이 바쁘고 힘들 수 있을 것 같네, 가은아 항상 응원하고 있어 충분히 잘 될테니까 건강 관리 잘 하고 조금만 더 힘내</p>
     </div>
   </div>
 
@@ -891,27 +890,32 @@
       requestAnimationFrame(animateSnow);
     })();
 
-    // ── Click: jasmine scatter ──
-    const flowers = ['💮','💮','🌼','💮','🍃','💮','✨','🌼','🍃','💮'];
+    // ── Click: Pocky scatter ──
+    const pinks = ['#ff5fa2', '#ff7eb6', '#ff4d94', '#ff9cc8'];
     document.addEventListener('click', e => {
       if (e.target.closest('.egg-btn') || e.target.closest('.pin-popup') || e.target.closest('.letter-overlay')) return;
-      const n = 9 + Math.floor(Math.random() * 5);
+      const n = 7 + Math.floor(Math.random() * 4);
       for (let i = 0; i < n; i++) {
         const el = document.createElement('span');
-        el.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+        el.textContent = 'Pocky';
         const angle = (360 / n) * i + (Math.random() * 28 - 14);
-        const dist  = 55 + Math.random() * 100;
+        const dist  = 60 + Math.random() * 100;
         const tx = Math.cos(angle * Math.PI / 180) * dist;
         const ty = Math.sin(angle * Math.PI / 180) * dist - 25;
+        const rot = Math.random() * 50 - 25;
         el.style.cssText = `
           position:fixed; left:${e.clientX}px; top:${e.clientY}px;
-          font-size:${1.1 + Math.random() * 0.9}rem;
+          font-size:${0.9 + Math.random() * 0.7}rem; font-weight:800;
+          font-family:'Arial Rounded MT Bold','Trebuchet MS',sans-serif;
+          color:${pinks[Math.floor(Math.random() * pinks.length)]};
+          text-shadow:0 0 6px rgba(255,255,255,0.9), 0 1px 2px rgba(180,0,80,0.35);
+          margin-left:-1.4em; margin-top:-0.5em;
           pointer-events:none; user-select:none; z-index:910;
-          line-height:1; transform-origin:center;
-          --tx:${tx}px; --ty:${ty}px;
-          animation:petalPop 0.9s ease-out forwards;`;
+          line-height:1; white-space:nowrap; transform-origin:center;
+          --tx:${tx}px; --ty:${ty}px; --rot:${rot}deg;
+          animation:pockyPop 2.2s ease-out forwards;`;
         document.body.appendChild(el);
-        setTimeout(() => el.remove(), 950);
+        setTimeout(() => el.remove(), 2300);
       }
     });
   </script>
